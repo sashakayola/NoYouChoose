@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Constants, MapView, Location, Permissions } from 'expo';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class App extends Component {
   state = {
@@ -65,8 +66,11 @@ render() {
             // pinColor={'orange'}
             // pinColor={'tomato'}
             // pinColor={'green'}
-            pinColor={'indigo'}
-         />
+            // pinColor={'indigo'}
+            // color={'#76BBB7'}
+         >
+         <Icon name="silverware-fork-knife" size={40} color={"indigo"} />
+        </MapView.Marker>
         }
 
           {this.state.marker !== '' &&
