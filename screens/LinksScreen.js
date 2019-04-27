@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { Constants, MapView, Location, Permissions } from 'expo';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+
 export default class App extends Component {
   state = {
     mapRegion: { latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
@@ -10,6 +11,7 @@ export default class App extends Component {
     location: {coords: { latitude: 40.6980, longitude: -73.9963}},
     marker: ''
   };
+
 
   componentDidMount() {
     this._getLocationAsync();
@@ -35,12 +37,12 @@ export default class App extends Component {
    this.setState({ locationResult: JSON.stringify(location), location });
  };
 
-fitPadding() {
-  this.map.fitToCoordinates([{latitude: 40.6980, longitude: -73.9963}, this.state.marker], {
-    edgePadding: { top: 50, right: 50, bottom: 120, left: 50 },
-    animated: true
-  });
-}
+// fitPadding() {
+//   this.map.fitToCoordinates([{latitude: 40.6980, longitude: -73.9963}, this.state.marker], {
+//     edgePadding: { top: 50, right: 50, bottom: 120, left: 50 },
+//     animated: true
+//   });
+// }
 
 render() {
   return (
@@ -72,6 +74,7 @@ render() {
          <Icon name="silverware-fork-knife" size={40} color={"indigo"} />
         </MapView.Marker>
         }
+
 
           {this.state.marker !== '' &&
             <MapView.Circle
