@@ -32,40 +32,20 @@ import { View, StyleSheet, Text, Button, TouchableOpacity, Alert, Dimensions, An
 import { Constants, MapView, Location, Permissions } from 'expo';
 import io from 'socket.io-client';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 export default class App extends Component {
   constructor(){
     super()
-    this.id = this.makeid();
+    // this.id = this.makeid();
     this.state = {
       mapRegion: { latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
       locationResult: null,
       random: false,
-      location: {coords: { latitude: 40.6980, longitude: -73.9963}},
+      id: null,
+      location: {coords: { latitude: 41.6980, longitude: -73.9963}},
     }
     this.socket = io('http://d5306bc9.ngrok.io', {
       transports: ['websocket'], jsonp: false,
     });
-
-    // this.socket = io('http://localhost:5000', {
-    //   transports: ['websocket'],
-    // })
-    // this.socket.connect();
-    // this.socket.on('connect', () => console.log('connected!'));
-
-    // this.socket.on('response', (data) => {console.log(data)})
-  }
-
-  makeid() {
-    var text = '';
-    var possible =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for (var i = 0; i < 5; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
   }
 
   componentDidMount() {
@@ -73,16 +53,13 @@ export default class App extends Component {
     this.socket.on('connect', () => {
       console.log('connected to socket server');
     });
-
-    // fetch('http://b52cf9f3.ngrok.io')
-    //   .then(response => response.json())
-    //   .then(responseJson => {
-    //     console.log(responseJson);
-    //     this.setState({
-    //       random: responseJson
-    //     })
-    //   })
-
+    this.socket.emit('register')
+    this.socket.on('registered', (id) => {
+      console.log('registered!')
+      this.setState({
+        id: id
+      })
+    })
 
     this._getLocationAsync();
     this.index = 0;
@@ -100,28 +77,38 @@ export default class App extends Component {
 
     let location = await Location.getCurrentPositionAsync({});
 
-    // this.socket.emit('position', {
-    //   data: location,
-    //   id: this.id
-    // })
-
-    this.setState({ locationResult: JSON.stringify(location), location });
+    this.socket.emit('getPosition', {
+      data: location,
+      id: this.state.id
+    })
+    this.socket.on('sendPosition', (position) => {
+      this.setState({
+        locationResult: JSON.stringify(position),
+        location: position
+      })
+    })
   };
 
   render() {
-    // this.socket.on('greeting', (data) => console.log(data));
-    // this.socket.emit('initial', {hello: 'hi'});
-    // this.socket.on('response', (data) => console.log(data))
-
     return (
       <View style={{flex: 1}}>
 
-         <MapView
+      <MapView
         ref={ref => { this.map = ref; }}
         style={styles.map}
         region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}
         showsUserLocation={true}
-        />
+        >
+        <MapView.Marker
+          coordinate={{latitude: this.state.location.coords.latitude,
+          longitude: this.state.location.coords.longitude}}
+          title={'YOU!'}
+          pinColor={'#00ced1'}
+         >
+
+        </MapView.Marker>
+
+      </MapView>
       </View>
     )
   }
