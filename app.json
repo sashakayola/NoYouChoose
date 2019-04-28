@@ -28,6 +28,19 @@
       "config": {
         "googleMapsApiKey": "AIzaSyDaJBYqKls6TT_44JLQyulmwf5T-CC18jI"
       }
+    },
+    "extra": {
+      "firebase": {
+        "apiKey": "AIzaSyBY2RMCGYPwsrs5M3wwsDgWSSPlPN-9800",
+        "authDomain": "noyouchoose-9f5b1.firebaseapp.com",
+        "databaseURL": "https://noyouchoose-9f5b1.firebaseio.com",
+        "projectId": "noyouchoose-9f5b1",
+        "storageBucket": "noyouchoose-9f5b1.appspot.com",
+        "messagingSenderId": "837429104319"
+      },
+      "facebook": {
+        "appId": "613939279122013"
+      }
     }
   }
 }

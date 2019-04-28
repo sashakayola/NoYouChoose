@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, Button, TouchableOpacity, Alert, Dimensions, Animated, Image } from 'react-native';
 import { Constants, MapView, Location, Permissions } from 'expo';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+// import {YELP_APP_SECRET} from 'react-native-dotenv'
 
 const config = {
   headers: {
-    Authorization: 'Bearer fmAW0diM5L5-44HUuua0b-fpqdCl7nb24nwic9nO54zMM4FE-kb3inLE2ToZ9HENk1LEbXEvghTqIijaQ4Mch8sA6NfRbBBMRr_Skmhs9P_KGjmN9DTOETqNTyDDXHYx',
+    Authorization: 'Bearer fmAW0diM5L5-44HUuua0b-fpqdCl7nb24nwic9nO54zMM4FE-kb3inLE2ToZ9HENk1LEbXEvghTqIijaQ4Mch8sA6NfRbBBMRr_Skmhs9P_KGjmN9DTOETqNTyDDXHYx'
   }
 }
 
