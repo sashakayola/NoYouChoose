@@ -128,16 +128,51 @@
 // });
 
 import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { ExpoConfigView } from '@expo/samples';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
-    title: 'app.json',
+    title: 'NoYouChoose',
   };
 
   render() {
     /* Go ahead and delete ExpoConfigView and replace it with your
      * content, we just wanted to give you a quick view of your config */
-    return <ExpoConfigView />;
+    return (
+    <View style={styles.container}>
+      <Text style={styles.text}>No, You Choose!</Text>
+      <Text>
+
+      </Text>
+      <Text style={styles.smallText}>Are you and your friends indecisive about where to eat? If so, let this app be your guide...</Text>
+      <Text>
+
+
+      </Text>
+      <Icon name="silverware-fork-knife" size={90} color={"#db7093"}/>
+    </View>)
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    // textAlign: 'center',
+    backgroundColor: '#e0ffff',
+    justifyContent: 'center',
+    // textAlignVertical: 'center',
+    alignItems: 'center',
+    flex: 1
+  },
+  text: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#c71585',
+  },
+  smallText: {
+    fontSize: 25,
+    // fontWeight: 'bold',
+    color: '#c71585',
+  }
+})

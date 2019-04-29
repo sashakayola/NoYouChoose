@@ -28,7 +28,8 @@ export default class App extends Component {
       food: null,
       canAdjustFood: true,
       id: null,
-      friends: []
+      friends: [],
+      placePicked: null
     }
     this.socket = io('http://31bdf7fe.ngrok.io', {
       transports: ['websocket'], jsonp: false,
@@ -57,7 +58,7 @@ export default class App extends Component {
 
   getFoodData() {
     if (this.state.canAdjustFood) {
-      return fetch(`https://api.yelp.com/v3/businesses/search?term=food&latitude=${this.state.marker.latitude}&longitude=${this.state.marker.longitude}&radius=700&limit=10`, config)
+      return fetch(`https://api.yelp.com/v3/businesses/search?term=food&latitude=${this.state.marker.latitude}&longitude=${this.state.marker.longitude}&radius=700&limit=7`, config)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
@@ -135,7 +136,8 @@ export default class App extends Component {
         </TouchableOpacity>
       }
 
-        { <MapView
+        {this.state.placePicked === null &&
+         <MapView
         ref={ref => { this.map = ref; }}
         style={styles.map}
         region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}
@@ -181,7 +183,7 @@ export default class App extends Component {
             <MapView.Circle
                     key = { (this.state.marker.latitude + this.state.marker.longitude).toString() }
                     center = { this.state.marker }
-                    radius = { 900 }
+                    radius = { 800 }
                     strokeWidth = { 1 }
                     strokeColor = { '#1a66ff' }
                     fillColor = { 'rgba(230,238,255,0.5)' }
@@ -208,7 +210,7 @@ export default class App extends Component {
 
           </MapView>}
 
-        {!this.state.isLoading &&
+        {!this.state.isLoading && this.state.placePicked === null &&
           <Animated.ScrollView
           horizontal
           scrollEventThrottle={1}
@@ -242,10 +244,16 @@ export default class App extends Component {
                   height: CARD_HEIGHT,
                   backgroundColor: 'transparent',
                 }}
-                onPress={() => alert('hi')}
+                onPress={() => {
+                  if (!this.state.canAdjustFood) {
+                    // Alert.alert('You picked me!')
+                    this.setState({
+                      placePicked: marker
+                    })
+                  }
+                }
+                }
               />
-
-
                 <Text style={styles.cardtitle}>{marker.name}</Text>
                 <Text style={styles.cardDescription}>{marker.location.address1},</Text>
                 <Text numberOfLines={1} style={styles.cardDescription}>{marker.location.city}</Text>
@@ -256,7 +264,26 @@ export default class App extends Component {
           ))}
           </Animated.ScrollView>
         }
+        {(this.state.placePicked !== null &&
+          <View style={styles.chosenFood}>
+            <Text style={styles.chosen}>
+              Successfully picked a food spot!
+            </Text>
+            <Text style={styles.chosen}>
 
+            </Text>
+            <Text style={styles.chosen}>
+              {this.state.placePicked.name}
+            </Text>
+            <Text style={styles.chosen}>
+              {this.state.placePicked.location.address1}, {this.state.placePicked.location.city}
+            </Text>
+            <Text>
+
+            </Text>
+            <Icon name="silverware-fork-knife" size={60} color={"#c71585"} />
+          </View>
+        )}
       </View>
     )
   }
@@ -276,6 +303,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#34495e',
+  },
+  chosenFood: {
+    // textAlign: 'center',
+    backgroundColor: '#b0e0e6',
+    justifyContent: 'center',
+    textAlignVertical: 'center',
+    alignItems: 'center',
+    flex: 1
+  },
+  chosen: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#db7093',
   },
   map: {
     flex: 1
