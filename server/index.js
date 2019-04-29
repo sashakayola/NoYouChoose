@@ -5,12 +5,8 @@ const PORT = 5000;
 const app = express();
 const server = http.createServer(app);
 
-const allUsers = [{id: 'abcdefg',
-                    location: {coords: { latitude: 40.6920, longitude: -73.9965}}},
-                  {id: 'abcdeft',
-                    location: {coords: { latitude: 40.6935, longitude: -73.9961}}},
-                    {id: 'abcdeft',
-                    location: {coords: { latitude: 40.7050, longitude: -74.0091}}}]
+let allUsers = [{id: 'abcdefg',
+                    location: {coords: { latitude: 40.7484, longitude: -73.9870}}}]
 
 const makeId = () => {
   var text = '';
@@ -45,10 +41,14 @@ io.on('connection', (socket) => {
       }
     }
     socket.emit('sendPosition', positionAndId.data)
+    let allUsersWithLocation = allUsers.filter((eachUser) =>
+      eachUser.location !== null
+    )
+    socket.broadcast.emit('sendUsers', allUsersWithLocation)
   })
 
   socket.on('getFriends', () => {
-    const allUsersWithLocation = allUsers.filter((eachUser) =>
+    let allUsersWithLocation = allUsers.filter((eachUser) =>
       eachUser.location !== null
     )
     socket.emit('sendFriends', JSON.stringify(allUsersWithLocation))
