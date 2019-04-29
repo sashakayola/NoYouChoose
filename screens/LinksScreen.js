@@ -57,7 +57,7 @@ export default class App extends Component {
 
   getFoodData() {
     if (this.state.canAdjustFood) {
-      return fetch(`https://api.yelp.com/v3/businesses/search?term=food&latitude=${this.state.marker.latitude}&longitude=${this.state.marker.longitude}&radius=800&limit=5`, config)
+      return fetch(`https://api.yelp.com/v3/businesses/search?term=food&latitude=${this.state.marker.latitude}&longitude=${this.state.marker.longitude}&radius=700&limit=10`, config)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
@@ -104,7 +104,6 @@ export default class App extends Component {
       this.setState({
         friends: JSON.parse(allUsers)
       })
-      console.log("ALLFRIENDS", this.state.friends);
     })
   };
 
@@ -116,6 +115,11 @@ export default class App extends Component {
   }
 
   render() {
+    this.socket.on('sendUsers', (allUsers) => {
+      this.setState({
+        friends: JSON.parse(allUsers)
+      })
+    })
     return (
       <View style={{flex: 1}}>
       {!this.state.isLoading && this.state.canAdjustFood &&
@@ -147,7 +151,7 @@ export default class App extends Component {
           coordinate={{latitude: this.state.location.coords.latitude,
           longitude: this.state.location.coords.longitude}}
           title={'YOU!'}
-          pinColor={'#00ced1'}
+          pinColor={'#db7093'}
          >
         </MapView.Marker>
 
@@ -157,7 +161,7 @@ export default class App extends Component {
           <MapView.Marker
               coordinate={{latitude: friend.location.coords.latitude,
               longitude: friend.location.coords.longitude}}
-              pinColor={'#00ced1'}
+              pinColor={'#db7093'}
               >
           </MapView.Marker>
             </View>
@@ -177,7 +181,7 @@ export default class App extends Component {
             <MapView.Circle
                     key = { (this.state.marker.latitude + this.state.marker.longitude).toString() }
                     center = { this.state.marker }
-                    radius = { 1000 }
+                    radius = { 900 }
                     strokeWidth = { 1 }
                     strokeColor = { '#1a66ff' }
                     fillColor = { 'rgba(230,238,255,0.5)' }
@@ -280,8 +284,8 @@ const styles = StyleSheet.create({
     marginRight:10,
     marginLeft:10,
     // marginTop:10,
-    paddingTop:10,
-    paddingBottom:10,
+    paddingTop:7,
+    paddingBottom:7,
     backgroundColor:'#20b2aa80',
     borderRadius:12,
     borderWidth: 2,
