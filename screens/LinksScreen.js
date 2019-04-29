@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, Button, TouchableOpacity, Alert, Dimensions, Animated, Image } from 'react-native';
 import { Constants, MapView, Location, Permissions } from 'expo';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import io from 'socket.io-client';
 // import {YELP_APP_SECRET} from 'react-native-dotenv'
 
 const config = {
@@ -9,13 +10,6 @@ const config = {
     Authorization: 'Bearer fmAW0diM5L5-44HUuua0b-fpqdCl7nb24nwic9nO54zMM4FE-kb3inLE2ToZ9HENk1LEbXEvghTqIijaQ4Mch8sA6NfRbBBMRr_Skmhs9P_KGjmN9DTOETqNTyDDXHYx'
   }
 }
-
-const Images = [
-  { uri: "https://i.imgur.com/sNam9iJ.jpg" },
-  { uri: "https://i.imgur.com/N7rlQYt.jpg" },
-  { uri: "https://i.imgur.com/UDrH0wm.jpg" },
-  { uri: "https://i.imgur.com/Ka8kNST.jpg" }
-]
 
 const { width, height } = Dimensions.get("window");
 
@@ -32,13 +26,30 @@ export default class App extends Component {
       marker: '',
       isLoading: true,
       food: null,
-      canAdjustFood: true
+      canAdjustFood: true,
+      id: null,
+      friends: []
     }
+    this.socket = io('http://31bdf7fe.ngrok.io', {
+      transports: ['websocket'], jsonp: false,
+    });
     this.getFoodData = this.getFoodData.bind(this)
     this.confirmRadius = this.confirmRadius.bind(this)
   }
 
   componentDidMount() {
+    this.socket.connect();
+    this.socket.on('connect', () => {
+      console.log('connected to socket server');
+    });
+    this.socket.emit('register')
+    this.socket.on('registered', (id) => {
+      console.log('registered!')
+      this.setState({
+        id: id
+      })
+    })
+
     this._getLocationAsync();
     this.index = 0;
     this.animation = new Animated.Value(0);
@@ -74,7 +85,27 @@ export default class App extends Component {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationResult: JSON.stringify(location), location });
+
+    this.socket.emit('getPosition', {
+      data: location,
+      id: this.state.id
+    });
+
+    this.socket.on('sendPosition', (position) => {
+      this.setState({
+        locationResult: position,
+        location: position
+      })
+
+      this.socket.emit('getFriends', {});
+    });
+
+    this.socket.on('sendFriends', (allUsers) => {
+      this.setState({
+        friends: JSON.parse(allUsers)
+      })
+      console.log("ALLFRIENDS", this.state.friends);
+    })
   };
 
   async addMarker(coordinates) {
@@ -111,6 +142,27 @@ export default class App extends Component {
           }
         }}
         >
+
+        <MapView.Marker
+          coordinate={{latitude: this.state.location.coords.latitude,
+          longitude: this.state.location.coords.longitude}}
+          title={'YOU!'}
+          pinColor={'#00ced1'}
+         >
+        </MapView.Marker>
+
+        {this.state.friends !== [] && this.state.friends.map((friend) => {
+          return (
+            <View key={friend.location.coords.latitude}>
+          <MapView.Marker
+              coordinate={{latitude: friend.location.coords.latitude,
+              longitude: friend.location.coords.longitude}}
+              pinColor={'#00ced1'}
+              >
+          </MapView.Marker>
+            </View>
+          )
+        })}
 
       {this.state.marker !== '' &&
         <MapView.Marker
