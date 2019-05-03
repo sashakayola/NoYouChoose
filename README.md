@@ -15,9 +15,8 @@ On top of this indecisiveness, both parties need to know where the other person 
 <img src="/assets/images/IMG_1495_2.PNG" width="35%" height="35%">
 * User B scrolls through the food options in the 'food circle' that User A defined.
 <img src="/assets/images/IMG_1496_2.PNG" width="35%" height="35%">
-* User B picks a food spot in that 'food circle'.
+* User B picks a food spot in that 'food circle'. User A is notified of the food spot chosen by User B.
 <img src="/assets/images/IMG_1497_2.PNG" width="35%" height="35%">
-* User A is notified of the restaurant chosen by User B.
 
 ## Getting Started
 In order to run this app on your device, download [Expo Client](https://itunes.apple.com/us/app/expo-client/id982107779?mt=8).
