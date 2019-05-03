@@ -10,10 +10,13 @@ On top of this indecisiveness, both parties need to know where the other person 
 
 ## How NoYouChoose Works
 * User A and User B see each other's geolocation.
-<img src="/assets/images/IMG_1494_2.png" width="25%" height="25%">
+<img src="/assets/images/IMG_1494_2.png" width="35%" height="35%">
 * User A picks a 'food circle' - a circle on the map will appear with pins of all the restaurants in that region.
+<img src="/assets/images/IMG_1495_2.png" width="35%" height="35%">
 * User B scrolls through the food options in the 'food circle' that User A defined.
+<img src="/assets/images/IMG_1496_2.png" width="35%" height="35%">
 * User B picks a food spot in that 'food circle'.
+<img src="/assets/images/IMG_1497_2.png" width="35%" height="35%">
 * User A is notified of the restaurant chosen by User B.
 
 ## Getting Started
