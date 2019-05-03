@@ -31,7 +31,7 @@ export default class App extends Component {
       friends: [],
       placePicked: null
     }
-    this.socket = io('http://31bdf7fe.ngrok.io', {
+    this.socket = io('http://f30e8f96.ngrok.io', {
       transports: ['websocket'], jsonp: false,
     });
     this.getFoodData = this.getFoodData.bind(this)
@@ -132,7 +132,7 @@ export default class App extends Component {
             }
           }}
           underlayColor='pink'>
-          <Text style={styles.buttonText}>Click to confirm food radius!</Text>
+          <Text style={styles.buttonText}>Click to confirm food circle!</Text>
         </TouchableOpacity>
       }
 
