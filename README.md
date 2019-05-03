@@ -1,3 +1,5 @@
+![picture](/assets/images/images/IMG_1494_2.jpg)
+
 # NoYouChoose
 Have you ever made plans to meet a friend for dinner but neither of you can decide where to eat? In my experience, the conversation usually goes like this:
 - Me: I don't care where we eat, any preferences?
@@ -10,7 +12,7 @@ On top of this indecisiveness, both parties need to know where the other person 
 
 ## How NoYouChoose Works
 * User A and User B see each other's geolocation.
-![picture](/assets/images/images/IMG_1494_2.PNG)
+![picture](/assets/images/images/IMG_1494_3.png)
 * User A picks a 'food circle' - a circle on the map will appear with pins of all the restaurants in that region.
 * User B scrolls through the food options in the 'food circle' that User A defined.
 * User B picks a food spot in that 'food circle'.
